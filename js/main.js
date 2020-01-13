@@ -13,7 +13,7 @@
 
  let currentNum = 0;
  let isAnswerd;
- 
+ let score = 0;
  
  function shuffle(arr) {
    for (let i = arr.length -1; i > 0; i--) {
@@ -30,6 +30,7 @@ function checkAnswer(li) {
   isAnswerd = true;
   if (li.textContent === quizSet[currentNum].c[0]) {
     li.classList.add('correct');
+    score++;
   } else {
     li.classList.add('wrong')
   }
@@ -52,13 +53,26 @@ function setQuiz() {
    })
    choices.appendChild(li);
   });
+
+  if (currentNum === quizSet.length -1) {
+    btn.textContent = 'Show Score';
+  }
 }
   
 setQuiz();
 
 btn.addEventListener('click', () => {
-  currentNum++;
-  setQuiz();
+  if (btn.classList.contains('disabled')) {
+    return;
+  }
+  btn.classList.add('disabled');
+
+  if (currentNum === quizSet.length - 1){
+    console.log(`Score: ${score} / ${quizSet.length}`);
+  } else {
+    currentNum++;
+    setQuiz();
+  }
 
 });
 }
