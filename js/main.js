@@ -12,7 +12,7 @@
  ];
 
  let currentNum = 0;
-
+ let isAnswerd;
  
  
  function shuffle(arr) {
@@ -24,14 +24,25 @@
  }
 
 function checkAnswer(li) {
-  if (li.textContent === quizSet[currentNum].c[0]) {
-    console.log('correct');
-  } else {
-    console.log('wrong!');
+  if (isAnswerd) {
+    return;
   }
+  isAnswerd = true;
+  if (li.textContent === quizSet[currentNum].c[0]) {
+    li.classList.add('correct');
+  } else {
+    li.classList.add('wrong')
+  }
+
+  btn.classList.remove('disabled');
 }
+
 function setQuiz() { 
+  isAnswerd = false;
   question.textContent = quizSet[currentNum].q;
+  while (choices.firstChild) {
+    choices.removeChild(choices.firstChild);
+  }
   const shuffledChoices = shuffle([...quizSet[currentNum].c]);
   shuffledChoices.forEach(choice => {
    const li = document.createElement('li');
@@ -45,4 +56,9 @@ function setQuiz() {
   
 setQuiz();
 
+btn.addEventListener('click', () => {
+  currentNum++;
+  setQuiz();
+
+});
 }
